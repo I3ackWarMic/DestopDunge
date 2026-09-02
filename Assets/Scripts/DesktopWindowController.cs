@@ -83,6 +83,9 @@ public class DesktopWindowController : MonoBehaviour
 #if UNITY_STANDALONE_WIN && !UNITY_EDITOR
     void InitializeWindow()
     {
+        // Set per-monitor DPI awareness before querying monitor/work area
+        DPIHelper.SetPerMonitorDPI();
+
         _hwnd = GetActiveWindow();
         MakeWindowBorderless();
     }
