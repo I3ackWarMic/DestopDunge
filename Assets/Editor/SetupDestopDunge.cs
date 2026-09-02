@@ -79,6 +79,18 @@ public static class SetupDestopDunge
         DesktopCharacterController charController = managerGO.AddComponent<DesktopCharacterController>();
         charController.characterData = charAsset;
 
+        // create ObjectPool for VFX/damage numbers
+        GameObject poolGO = new GameObject("ObjectPool");
+        var pool = poolGO.AddComponent<ObjectPool>();
+        // setup default pools (prefabs may be null placeholders)
+        pool.items = new ObjectPool.PoolItem[2];
+        pool.items[0] = new ObjectPool.PoolItem() { id = "damage", prefab = null, initialSize = 16 };
+        pool.items[1] = new ObjectPool.PoolItem() { id = "vfx", prefab = null, initialSize = 8 };
+
+        // create ScreenShakeManager
+        GameObject shakeGO = new GameObject("ScreenShakeManager");
+        shakeGO.AddComponent<ScreenShakeManager>();
+
         // Save scene
         string scenePath = "Assets/Scenes/DesktopScene.unity";
         bool saved = EditorSceneManager.SaveScene(scene, scenePath);
@@ -93,7 +105,7 @@ public static class SetupDestopDunge
 
         AssetDatabase.Refresh();
 
-        EditorUtility.DisplayDialog("DestopDunge Setup", "Setup complete.\n\nCreated:\n- Prefabs: " + desktopPrefabPath + ", " + combatPrefabPath + "\n- CharacterData: " + characterAssetPath + "\n- Scene: " + scenePath + "\n\nOpen the scene to inspect objects.", "OK");
+        EditorUtility.DisplayDialog("DestopDunge Setup", "Setup complete.\n\nCreated:\n- Prefabs: " + desktopPrefabPath + ", " + combatPrefabPath + "\n- CharacterData: " + characterAssetPath + "\n- Scene: " + scenePath, "OK");
     }
 
     static void CreateFolderIfMissing(string parent, string newFolder)
